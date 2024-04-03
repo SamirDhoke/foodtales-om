@@ -8,7 +8,15 @@ function App() {
 
   return (
     <main className='root'>
-      <h1>Hello, World!</h1> 
+      <header>
+        <h1>Take Order</h1>       
+      </header>
+      <section className='item-search'>
+        
+      </section>
+      <section className='order-summary'>
+
+      </section>
     </main>
     
   )
