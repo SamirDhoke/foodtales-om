@@ -2,9 +2,11 @@ import './Header.css';
 
 export const OpenOrderBtn = ({handleClick}) => {
   return (
-    <button className='open-order-btn' onClick={handleClick}>
-      show open orders
-    </button>
+    
+      <button className='open-order-btn ' onClick={handleClick}>
+        show open orders
+      </button>
+    
   )
 }
 

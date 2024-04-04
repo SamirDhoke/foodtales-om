@@ -13,15 +13,16 @@ function App() {
   const toggleOpenOrdersWindow = () => setShowOpenOrders(!showOpenOrders);
 
   return (
-    <main className='root'>
+    <div className='root'>
       <Header>
         <Heading text="Take Order"/>
         <OpenOrderBtn handleClick={toggleOpenOrdersWindow}/>
-      </Header>
-      <ItemSearch/> 
-      <OrderSummary/>
-    </main>
-    
+      </Header>      
+      <main>
+        <ItemSearch/> 
+        <OrderSummary/>
+      </main>
+  </div>  
   )
 }
 

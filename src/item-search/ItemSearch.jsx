@@ -1,3 +1,4 @@
+import './ItemSearch.css';
 
 export function SearchFilter(props) {
   return (
@@ -13,23 +14,26 @@ export function SearchFilter(props) {
 export function Item(props) {
   return (
     <li className='item-filter-list-item'>
-      <div className='item-filter-list-item-container'>
-        <div className='item-image'>
-          <img src='https://picsum.photos/100/50'/>
-        </div>
-        <div className='item-description'>
-          <h2>Masala Dosa</h2>
-          <p>Price: Rs. 55</p>
-        </div>
+      <div className='item-image'>
+        <img src='https://picsum.photos/100/50'/>
+      </div>
+      <div className='item-description'>
+        <h2>Masala Dosa</h2>
+        <p>Price: Rs. 55</p>
+      </div>
+      <div className='item-action'>
+
         <div className='item-counter'>
           <button>+</button>
-          <span>1</span>
+          <span className='count'>1</span>
           <button>-</button>
         </div>
+        
         <button>
           Add
         </button>
-      </div>
+        
+    </div>      
     </li>
   )
 }
@@ -51,4 +55,4 @@ function ItemSearch(props) {
   )
 }
 
-export default ItemSearch
+export default ItemSearch;

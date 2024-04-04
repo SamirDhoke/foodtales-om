@@ -1,5 +1,5 @@
 import { useState } from 'react'
-
+import './OrderSummary.css';
 
 export const OrderedItemList = (props) => {
   return (
