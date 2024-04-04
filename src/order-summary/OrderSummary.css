@@ -1,4 +1,86 @@
 .order-summary-container {
 	flex: 2;
+	background-color: #e4e4e4;
 }
 
+.order-total {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+
+	margin: 16px;
+	border: 2px solid black;
+}
+
+.order-total > h2 {
+	font-size: 1.5rem;
+
+	margin: 8px;
+}
+
+.order-summary {
+	border: 2px solid black;
+	margin: 16px;
+}
+
+.order-summary-heading {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 8px 10px;
+}
+
+.order-summary-heading > button {
+	flex-basis: 20%;
+}
+
+.ordered-item-list {
+	background-color: #c4c4c4;
+	margin: 8px;
+
+	display: flex;
+	flex-direction: column;
+}
+
+.ordered-item-list-item {
+	margin: 8px;
+	display: flex;
+	gap: 25px;
+
+	align-items: center;
+}
+
+.ordered-item-list-item-header {
+	margin: 8px 16px;
+	display: flex;
+	gap: 25px;
+}
+
+.ordered-item-list-item-header > span {
+	font-weight: bold;
+}
+
+.ordered-item-list-item-header > * {
+	margin-right: 8px;
+}
+
+.ordered-item-name, .ordered-item-price, .ordered-item-count {
+	margin-right: 8px;
+}
+
+.ordered-item-name, .ordered-item-name-header {
+	flex-basis: 20%;
+}
+
+.order-submit {
+	display: flex;
+	justify-content: center;
+	align-items: stretch;
+
+	margin: 16px;
+	height: 35px;
+}
+
+.order-submit > button {
+	width: 100%;
+}

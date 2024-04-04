@@ -3,4 +3,5 @@ main {
 	justify-self: space-between;
 
 	margin: 16px;
+	gap: 16px;
 }
