@@ -1,3 +1,6 @@
+import { useContext } from 'react';
+import StateContext from '../StateContext.jsx';
+
 import './ItemSearch.css';
 
 export function SearchFilter(props) {
@@ -39,6 +42,7 @@ export function Item(props) {
 }
 
 export function ItemList() {
+
   return (
     <ul className='item-filter-list'>
       <Item />
@@ -47,6 +51,12 @@ export function ItemList() {
 }
 
 function ItemSearch(props) {
+
+  const state = useContext(StateContext);
+  
+  
+  // console.log('filteredItems', state.menuItems);
+
   return (
     <section className='item-search'>
       <SearchFilter/>    
