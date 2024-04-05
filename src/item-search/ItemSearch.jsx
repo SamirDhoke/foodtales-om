@@ -1,51 +1,88 @@
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import StateContext from '../StateContext.jsx';
+import StateChangeContext from '../StateChangeContext.jsx';
+
+import {ACTIONS} from '../stateReducer.js';
 
 import './ItemSearch.css';
 
 export function SearchFilter(props) {
+  
+  const {
+    text='',
+    handleTextChange=() => {}
+  } = props;
+
   return (
     <div className='search-filter'>
       <input 
         className='search-filter-input'
         placeholder='search...'
+        value={text}
+        onChange={handleTextChange}
       />
     </div>
   )
 }
 
 export function Item(props) {
+
+  const updateState = useContext(StateChangeContext);
+
+  const {
+    name,
+    price,
+    qty,
+    isSelected,
+    id
+  } = props;
+
+  const handleAddItemToOrder = () => {
+    updateState({ type: ACTIONS.ADD_ITEM, payload: id });
+  }
+
+  const handleRemoveItemFromOrder = () => {
+    updateState({ type: ACTIONS.REMOVE_ITEM, payload: id });
+  }
+
   return (
     <li className='item-filter-list-item'>
       <div className='item-image'>
         <img src='https://picsum.photos/100/50'/>
       </div>
       <div className='item-description'>
-        <h2>Masala Dosa</h2>
-        <p>Price: Rs. 55</p>
+        <h2>{name}</h2>
+        <p>Price: Rs. {price}</p>
       </div>
       <div className='item-action'>
 
-        <div className='item-counter'>
-          <button>+</button>
-          <span className='count'>1</span>
-          <button>-</button>
-        </div>
-        
-        <button>
-          Add
-        </button>
-        
+        {
+          isSelected ? (
+            <div className='item-counter'>
+              <button onClick={handleAddItemToOrder}>+</button>
+              <span className='count'>{qty}</span>
+              <button onClick={handleRemoveItemFromOrder}>-</button>
+            </div>
+          ) : (
+            <button onClick={handleAddItemToOrder}>
+              Add
+            </button>
+          )
+        }      
     </div>      
     </li>
   )
 }
 
-export function ItemList() {
+export function ItemList({items=[]}) {
 
   return (
-    <ul className='item-filter-list'>
-      <Item />
+    <ul className='item-filter-list'> 
+      {
+        items.map(item => (
+          <Item {...item} key={item.id}/>      
+        ))      
+      }
     </ul>
   )
 }
@@ -54,13 +91,39 @@ function ItemSearch(props) {
 
   const state = useContext(StateContext);
   
-  
-  // console.log('filteredItems', state.menuItems);
+  const [filter, setFilter] = useState({
+    text: '',
+    items: []
+  });
+
+  useEffect(() => {
+
+    const menuItems = [...state.menu];
+
+    // console.log('Menu', state);
+
+    setFilter({...filter, items: menuItems})
+  }, [state.menu])
+
+  useEffect(() => {
+
+    // every time filter text changes, change the filter items
+    const filteredItems = state.menu.filter(item => item.name.toLowerCase().includes(filter.text.toLowerCase()));
+    setFilter({ ...filter, items: filteredItems })
+
+  }, [filter.text])
+
+  const handleFilterTextChange = ({target}) => setFilter({...filter, text: target.value});
+
+  // console.log('filter', filter);
 
   return (
     <section className='item-search'>
-      <SearchFilter/>    
-      <ItemList/>
+      <SearchFilter
+        text={filter.text}
+        handleTextChange={handleFilterTextChange}
+      />    
+      <ItemList items={filter.items}/>
     </section>
   )
 }
