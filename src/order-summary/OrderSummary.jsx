@@ -2,6 +2,9 @@ import { useState, useContext } from 'react'
 import './OrderSummary.css';
 
 import StateContext from '../StateContext.jsx';
+import StateChangeContext from '../StateChangeContext.jsx';
+
+import {ACTIONS} from '../stateReducer.js';
 
 const OrderedItemListHeader = (props) => {
 
@@ -70,12 +73,23 @@ export const OrderedItemListItem = (props) => {
 function OrderSummary(props) {
 
   const state = useContext(StateContext);
+  const dispatch = useContext(StateChangeContext);
 
   const itemsTotal = state.menu.reduce((total, item) => {
     return (total + item.qty * item.price)
   }, 0)
 
   const orderedItems = state.menu.filter(item => item.isSelected);
+
+  const handleOrderSubmit = () => {
+    dispatch({
+      type: ACTIONS.ADD_ORDER,
+      payload: {
+        items: orderedItems,
+        total: itemsTotal
+      }
+    })
+  }
 
   return (
     <section className='order-summary-container'>
@@ -90,7 +104,7 @@ function OrderSummary(props) {
         <OrderedItemList items={orderedItems}/>
       </div>
       <div className='order-submit'>
-        <button>Submit</button>
+        <button onClick={handleOrderSubmit}>Submit</button>
       </div>
     </section>
   )
