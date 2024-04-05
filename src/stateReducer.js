@@ -32,7 +32,7 @@ function reducer(state, action) {
 
 			const newMenuItems = state.menu.map(item => item.id === itemId ? newMenuItem : item);
 			const newState = {...state, menu: newMenuItems};
-			
+
 			return newState;
 		}
 	}

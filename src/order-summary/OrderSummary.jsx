@@ -1,7 +1,10 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import './OrderSummary.css';
 
+import StateContext from '../StateContext.jsx';
+
 const OrderedItemListHeader = (props) => {
+
   return (
     <div className='ordered-item-list-item-header'>
       <span className='ordered-item-name-header'>
@@ -20,49 +23,71 @@ const OrderedItemListHeader = (props) => {
   )
 }
 
-export const OrderedItemList = (props) => {
+export const OrderedItemList = ({items=[]}) => {
   return (
     <>
     <OrderedItemListHeader/>
     <ul className='ordered-item-list'>
-      <OrderedItemListItem/>
+      {
+        items.map(item => (
+            <OrderedItemListItem key={item.id} {...item}/>
+          )
+        )
+      }
     </ul>
     </>
   )
 }
 
 export const OrderedItemListItem = (props) => {
+
+  const {
+    name,
+    price,
+    qty
+  } = props;
+
+  const itemTotal = price * qty;
+
   return (
     <li className='ordered-item-list-item'>
       <span className='ordered-item-name'>
-        Cheese dosa
+        {name}
       </span>
       <span className='ordered-item-price'>
-        Rs. 55
+        Rs. {price}
       </span>
       <span className='ordered-item-count'>
-        x2
+        x{qty}
       </span>
       <span className='ordered-item-total'>
-        Rs. 110
+        Rs. {itemTotal}
       </span>
     </li>  
   )
 }
 
 function OrderSummary(props) {
+
+  const state = useContext(StateContext);
+
+  const itemsTotal = state.menu.reduce((total, item) => {
+    return (total + item.qty * item.price)
+  }, 0)
+
+  const orderedItems = state.menu.filter(item => item.isSelected);
+
   return (
     <section className='order-summary-container'>
       {/* <h3>Order Summary</h3> */}
       <div className='order-total'>
-        <h2>Total : Rs. 657</h2>
+        <h2>Total : Rs. {itemsTotal}</h2>
       </div>
       <div className='order-summary'>
         <div className='order-summary-heading'>
           <h4>Order Summary</h4>
-          <button>modify</button>
         </div>        
-        <OrderedItemList/>
+        <OrderedItemList items={orderedItems}/>
       </div>
       <div className='order-submit'>
         <button>Submit</button>
