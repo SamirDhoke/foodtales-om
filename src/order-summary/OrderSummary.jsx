@@ -91,6 +91,28 @@ function OrderSummary(props) {
     })
   }
 
+  const handleOrderUpdate = () => {
+    dispatch({
+      type: ACTIONS.UPDATE_ORDER,
+      payload: {
+        items: orderedItems,
+        total: itemsTotal,
+        orderId: state.orderId
+      }
+    })
+  }
+
+  const handleOrderPaid = () => {
+    dispatch({
+      type: ACTIONS.UPDATE_ORDER_PAY,
+      payload: {
+        items: orderedItems,
+        total: itemsTotal,
+        orderId: state.orderId
+      }
+    })
+  }
+
   return (
     <section className='order-summary-container'>
       {/* <h3>Order Summary</h3> */}
@@ -99,12 +121,27 @@ function OrderSummary(props) {
       </div>
       <div className='order-summary'>
         <div className='order-summary-heading'>
-          <h4>Order Summary</h4>
+          {
+            state.isEditingOrder ? (
+              <h4>Order Summary for order #{state.orderId}</h4>
+            ) : (
+              <h4>Order Summary</h4>
+            )        
+          }
         </div>        
         <OrderedItemList items={orderedItems}/>
       </div>
       <div className='order-submit'>
-        <button onClick={handleOrderSubmit}>Submit</button>
+        {
+          state.isEditingOrder ? (
+            <>
+              <button onClick={handleOrderUpdate}>Submit Edits</button>
+              <button onClick={handleOrderPaid}>Paid</button>
+            </>            
+          ) : (
+            <button onClick={handleOrderSubmit}>Submit</button>
+          )        
+        }
       </div>
     </section>
   )

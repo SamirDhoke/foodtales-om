@@ -19,7 +19,10 @@ function App() {
   const [openOrdersVisible, setOpenOrdersVisible] = useState(false);
   const [state, setState] = useState({
     menu: [],
-    orders: []
+    orders: [],
+    isEditingOrder: false,
+    orderId: null,
+    showSidebar: false
   });
 
   const toggleOpenOrdersWindow = () => setOpenOrdersVisible(!openOrdersVisible);
@@ -40,6 +43,9 @@ function App() {
   }, [])
 
   const updateState = (action) => {
+
+    console.log('[REDUCER]', action.type, 'PAYLOAD ->', action.payload);
+
     const newState = stateReducer(state, action);
 
     console.log('reducer output', newState);
@@ -49,30 +55,25 @@ function App() {
 
   console.log('state', state);
 
+  const openOrders = state.orders.filter(order => !order.isPaid);
+
   return (
     <StateContext.Provider value={state}>
       <StateChangeContext.Provider value={updateState}>      
         <div className='root'>
             <Header>
               <Heading text="Take Order"/>
-              <OpenOrderBtn handleClick={toggleOpenOrdersWindow}/>
+              <OpenOrderBtn/>
             </Header>      
             <main>
               <ItemSearch/> 
               <OrderSummary/>
             </main>
-            { openOrdersVisible ? (
-                <Sidebar 
-                  orders={state.orders} 
-                  handleClose={closeOpenOrdersWindow}/> 
-                ) : null 
-            }            
+            { state.showSidebar ? ( <Sidebar orders={openOrders}/> ) : null }            
         </div>
       </StateChangeContext.Provider>  
     </StateContext.Provider>
   )
 }
-
-
 
 export default App

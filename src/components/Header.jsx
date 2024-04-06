@@ -1,9 +1,20 @@
+import { useContext } from 'react';
+// import StateContext from '../StateContext.jsx';
+import StateChangeContext from '../StateChangeContext.jsx';
+import {ACTIONS} from '../stateReducer.js';
+
 import './Header.css';
 
-export const OpenOrderBtn = ({handleClick}) => {
+
+
+export const OpenOrderBtn = (props) => {
+
+  const dispatch = useContext(StateChangeContext);
+
+  const handleOpenSidebar = () => dispatch({type: ACTIONS.SHOW_SIDEBAR});
+
   return (
-    
-      <button className='open-order-btn ' onClick={handleClick}>
+      <button className='open-order-btn ' onClick={handleOpenSidebar}>
         show open orders
       </button>
     

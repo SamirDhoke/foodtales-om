@@ -1,9 +1,21 @@
+import { useContext } from 'react';
+
+import StateContext from '../StateContext.jsx';
+import StateChangeContext from '../StateChangeContext.jsx';
+
+import {ACTIONS} from '../stateReducer.js';
+
 function Sidebar(props) {
-  // body...
-  const { handleClose, orders } = props;
+
+  const { orders } = props;
+  
+  const dispatch = useContext(StateChangeContext);
+
+  const handleClose = () => dispatch({ type: ACTIONS.CLOSE_SIDEBAR });
 
   return (
     <div className='sidebar-wrapper' onClick={handleClose}>                              
+      {/* stopProagation to make sure open orders sidebar does not close when clicked inside */}
       <aside className='open-orders-sidebar' onClick={(e) => e.stopPropagation()}>
         <h3>Open Orders</h3>
         <ul className='open-order-list'>
@@ -27,8 +39,12 @@ function OrderDetail(props) {
     total=0,
     id=1,
     creation_time=null,
-    isPaid=false
+    isPaid=false,
+    handleEdit
   } = props;
+
+
+  const dispatch = useContext(StateChangeContext)
 
   let formatted_date = new Date(creation_time);
 
@@ -42,6 +58,11 @@ function OrderDetail(props) {
 
   formatted_date = formatted_date.toLocaleTimeString("en-us", format_options);
 
+  const handleEditOrder = () => dispatch({ type: ACTIONS.EDIT_ORDER, payload: {
+    orderId: id,
+    items: items
+  } });
+
   return (
     <div className='order-detail'>
       <p className='order-id'>Order ID: {id}</p>
@@ -52,7 +73,7 @@ function OrderDetail(props) {
           items.map(item => <OrderedItem item={item} key={item.id}/> )
         }        
       </ul>
-      <button className='action-btn'>
+      <button className='action-btn' onClick={handleEditOrder}>
         Edit
       </button>
     </div>
