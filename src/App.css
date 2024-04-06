@@ -5,6 +5,17 @@ main {
 	margin: 16px;
 	gap: 16px;
 }
+.sidebar-wrapper {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+
+	background-color: transparent;
+
+	z-index: 1;
+}
 
 .open-orders-sidebar {
 	position: absolute;
@@ -18,6 +29,8 @@ main {
 
 	display: flex;
 	flex-direction: column;
+
+	z-index: 2;
 }
 
 .open-orders-sidebar > h3 {
