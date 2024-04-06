@@ -48,12 +48,12 @@ function App() {
 
     const newState = stateReducer(state, action);
 
-    console.log('reducer output', newState);
+    // console.log('reducer output', newState);
 
     setState(newState);
   }
 
-  console.log('state', state);
+  // console.log('state', state);
 
   const openOrders = state.orders.filter(order => !order.isPaid);
 

@@ -2,6 +2,10 @@
 	flex: 3;
 
 	background-color: #e4e4e4;
+
+	display: flex;
+	flex-direction: column;
+	height: min(100vh, fit-content);
 }
 
 .search-filter {
@@ -24,7 +28,8 @@
 }
 
 .item-filter-list {
-	margin: 16px;
+	padding: 16px;
+	overflow: scroll;
 }
 
 .item-filter-list-item {
