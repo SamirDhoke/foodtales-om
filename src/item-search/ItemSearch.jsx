@@ -1,4 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
+
 import StateContext from '../StateContext.jsx';
 import StateChangeContext from '../StateChangeContext.jsx';
 
@@ -21,6 +22,23 @@ export function SearchFilter(props) {
         value={text}
         onChange={handleTextChange}
       />
+    </div>
+  )
+}
+
+function Counter(props) {
+  
+  const {
+    handlePositive,
+    handleNegative,
+    value
+  } = props;
+
+  return (
+    <div className='item-counter'>
+      <button onClick={handlePositive}>+</button>
+      <span className='count'>{value}</span>
+      <button onClick={handleNegative}>-</button>
     </div>
   )
 }
@@ -58,11 +76,11 @@ export function Item(props) {
 
         {
           isSelected ? (
-            <div className='item-counter'>
-              <button onClick={handleAddItemToOrder}>+</button>
-              <span className='count'>{qty}</span>
-              <button onClick={handleRemoveItemFromOrder}>-</button>
-            </div>
+            <Counter
+              handlePositive={handleAddItemToOrder}
+              handleNegative={handleRemoveItemFromOrder}
+              value={qty}
+            />          
           ) : (
             <button onClick={handleAddItemToOrder}>
               Add
@@ -94,16 +112,20 @@ function ItemSearch(props) {
   const [filter, setFilter] = useState({
     text: '',
     items: []
+
   });
 
-  useEffect(() => {
-
-    const menuItems = [...state.menu];
-
-    // console.log('Menu', state);
-
-    setFilter({...filter, items: menuItems})
-  }, [state.menu])
+//   useEffect(() => {
+// 
+//     let filteredItems = [...state.menu];
+// 
+//     if (filter.text) {
+//       filteredItems = state.menu.filter(item => item.name.toLowerCase().includes(filter.text.toLowerCase()));  
+//     }
+//     // console.log('Menu', state);
+//     setFilter({...filter, items: filteredItems})
+//   
+//   }, [state.menu])
 
   useEffect(() => {
 
@@ -111,7 +133,7 @@ function ItemSearch(props) {
     const filteredItems = state.menu.filter(item => item.name.toLowerCase().includes(filter.text.toLowerCase()));
     setFilter({ ...filter, items: filteredItems })
 
-  }, [filter.text])
+  }, [filter.text, state.menu])
 
   const handleFilterTextChange = ({target}) => setFilter({...filter, text: target.value});
 

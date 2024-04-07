@@ -10,18 +10,10 @@ const OrderedItemListHeader = (props) => {
 
   return (
     <div className='ordered-item-list-item-header'>
-      <span className='ordered-item-name-header'>
-        Name
-      </span>
-      <span className='ordered-item-price-header'>
-        Price
-      </span>
-      <span className='ordered-item-count-header'>
-        Qty
-      </span>
-      <span className='ordered-item-total-header'>
-        Total
-      </span>
+      <span className='ordered-item-name-header'>Name</span>
+      <span className='ordered-item-price-header'>Price</span>
+      <span className='ordered-item-count-header'>Qty</span>
+      <span className='ordered-item-total-header'>Total</span>
     </div>
   )
 }
@@ -45,27 +37,19 @@ export const OrderedItemList = ({items=[]}) => {
 export const OrderedItemListItem = (props) => {
 
   const {
-    name,
-    price,
-    qty
+    name=null,
+    price=null,
+    qty=null
   } = props;
 
   const itemTotal = price * qty;
 
   return (
     <li className='ordered-item-list-item'>
-      <span className='ordered-item-name'>
-        {name}
-      </span>
-      <span className='ordered-item-price'>
-        Rs. {price}
-      </span>
-      <span className='ordered-item-count'>
-        x{qty}
-      </span>
-      <span className='ordered-item-total'>
-        Rs. {itemTotal}
-      </span>
+      {name ? <span className='ordered-item-name'>{name}</span> : null}
+      {price ? <span className='ordered-item-price'>Rs. {price}</span> : null}
+      {qty ? <span className='ordered-item-count'>x{qty}</span> : null}
+      {itemTotal ? <span className='ordered-item-total'>Rs. {itemTotal}</span> : null}
     </li>  
   )
 }
@@ -97,7 +81,7 @@ function OrderSummary(props) {
       payload: {
         items: orderedItems,
         total: itemsTotal,
-        orderId: state.orderId
+        orderId: state.order.id
       }
     })
   }
@@ -108,7 +92,7 @@ function OrderSummary(props) {
       payload: {
         items: orderedItems,
         total: itemsTotal,
-        orderId: state.orderId
+        orderId: state.order.id
       }
     })
   }
@@ -122,8 +106,8 @@ function OrderSummary(props) {
       <div className='order-summary'>
         <div className='order-summary-heading'>
           {
-            state.isEditingOrder ? (
-              <h4>Order Summary for order #{state.orderId}</h4>
+            state.order.id ? (
+              <h4>Order Summary for order #{state.order.id}</h4>
             ) : (
               <h4>Order Summary</h4>
             )        
@@ -133,7 +117,7 @@ function OrderSummary(props) {
       </div>
       <div className='order-submit'>
         {
-          state.isEditingOrder ? (
+          state.order.id ? (
             <>
               <button onClick={handleOrderUpdate}>Submit Edits</button>
               <button onClick={handleOrderPaid}>Paid</button>

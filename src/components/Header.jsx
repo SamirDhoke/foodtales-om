@@ -1,16 +1,16 @@
 import { useContext } from 'react';
-// import StateContext from '../StateContext.jsx';
+
+import StateContext from '../StateContext.jsx';
 import StateChangeContext from '../StateChangeContext.jsx';
+
 import {ACTIONS} from '../stateReducer.js';
 
 import './Header.css';
 
-
-
 export const OpenOrderBtn = (props) => {
 
   const dispatch = useContext(StateChangeContext);
-
+  
   const handleOpenSidebar = () => dispatch({type: ACTIONS.SHOW_SIDEBAR});
 
   return (
@@ -21,7 +21,19 @@ export const OpenOrderBtn = (props) => {
   )
 }
 
-export const Heading = ({text}) => <h2 className='heading'>{text}</h2>
+export const Heading = (props) => {
+
+  const state = useContext(StateContext);
+  
+  return (
+    <h2 className='heading'>
+      { 
+        state.order.id ? `Edit Order #${state.order.id}` : "Take order"
+      }
+    </h2>  
+  )
+
+}
 
 function Header(props) {
   const { children } = props;

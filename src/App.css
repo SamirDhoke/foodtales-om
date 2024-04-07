@@ -78,3 +78,8 @@ main {
 .order-item > span {
 	margin-right: 8px;
 }
+
+.action-buttons {
+	display: flex;
+	justify-content: flex-end;
+}

@@ -5,13 +5,17 @@ import StateChangeContext from '../StateChangeContext.jsx';
 
 import {ACTIONS} from '../stateReducer.js';
 
+import {OrderedItemListItem} from '../order-summary/OrderSummary.jsx';
+
+
 function Sidebar(props) {
 
-  const { orders } = props;
-  
+  const state = useContext(StateContext);
   const dispatch = useContext(StateChangeContext);
 
   const handleClose = () => dispatch({ type: ACTIONS.CLOSE_SIDEBAR });
+
+  const orders = state.orders.filter(order => !order.paid);
 
   return (
     <div className='sidebar-wrapper' onClick={handleClose}>                              
@@ -63,6 +67,10 @@ function OrderDetail(props) {
     items: items
   } });
 
+  const handlePayOrder = () => dispatch({ type: ACTIONS.UPDATE_ORDER_PAY, payload: {
+    orderId: id
+  } });
+
   return (
     <div className='order-detail'>
       <p className='order-id'>Order ID: {id}</p>
@@ -70,12 +78,14 @@ function OrderDetail(props) {
       <p>Order items : </p>
       <ul className='order-item-list'>
         {
-          items.map(item => <OrderedItem item={item} key={item.id}/> )
+          items.map(item => <OrderedItemListItem name={item.name} qty={item.qty} key={item.id}/> )
         }        
       </ul>
-      <button className='action-btn' onClick={handleEditOrder}>
-        Edit
-      </button>
+      <div className='action-buttons'>
+        <button className='action-btn' onClick={handleEditOrder}>Edit</button>
+        <button className='action-btn' onClick={handlePayOrder}>Mark Paid</button>  
+      </div>
+      
     </div>
   )
 }
